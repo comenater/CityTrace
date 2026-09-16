@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>City Trace — Resolved means proven</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDE6D3;
+    --paper-2:#E3D9C0;
+    --paper-3:#F5F0E2;
+    --ink:#211C14;
+    --ink-soft:#5B5340;
+    --ink-faint:#8A8168;
+    --line: rgba(33,28,20,0.16);
+    --teal:#1F6F5C;
+    --teal-ink:#0F3D32;
+    --gold:#AD7A22;
+    --indigo:#423B8A;
+    --rust:#A13D2B;
+    --green:#3E7D45;
+    --shadow-hard: 4px 4px 0 rgba(33,28,20,0.14);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    background-image: radial-gradient(circle at 1px 1px, rgba(33,28,20,0.05) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+  a{color:inherit;}
+  img,svg{display:block;}
+  ::selection{background:var(--gold); color:var(--paper-3);}
+  :focus-visible{outline:2.5px solid var(--indigo); outline-offset:3px;}
+
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+  h1,h2,h3{font-family:'Fraunces',serif; font-weight:600; margin:0; letter-spacing:-0.01em;}
+
+  /* ---------- NAV ---------- */
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:rgba(237,230,211,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:16px 28px; max-width:1120px; margin:0 auto;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Fraunces',serif; font-weight:600; font-size:20px; text-decoration:none; cursor:pointer;}
+  .seal{width:34px; height:34px; flex:none;}
+  .navlinks{display:flex; gap:28px; font-size:14.5px; font-weight:500;}
+  .navlinks a{text-decoration:none; color:var(--ink-soft); border-bottom:1px solid transparent; padding-bottom:2px;}
+  .navlinks a:hover{color:var(--ink); border-color:var(--ink);}
+  .nav-cta{
+    background:var(--ink); color:var(--paper-3); border:none;
+    font-family:'Inter',sans-serif; font-weight:600; font-size:14px;
+    padding:10px 18px; border-radius:3px; cursor:pointer; box-shadow: var(--shadow-hard);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .nav-cta:hover{ transform:translate(-2px,-2px); box-shadow:6px 6px 0 rgba(33,28,20,0.18); }
+
+  /* ---------- HERO ---------- */
+  .hero{padding:76px 0 60px;}
+  .hero-grid{display:grid; grid-template-columns:1.1fr 0.95fr; gap:56px; align-items:center;}
+  .kicker-line{display:flex; align-items:center; gap:10px; margin-bottom:22px; color:var(--ink-faint); font-size:13.5px; font-weight:500;}
+  .kicker-line .dot{width:7px; height:7px; border-radius:50%; background:var(--rust);}
+  h1.hero-title{font-size:52px; line-height:1.06; margin-bottom:22px;}
+  h1.hero-title em{font-style:italic; color:var(--teal-ink);}
+  .hero-sub{font-size:18px; color:var(--ink-soft); max-width:46ch; margin-bottom:30px;}
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn-primary, .btn-ghost{
+    font-family:'Inter',sans-serif; font-weight:600; font-size:15px;
+    padding:13px 22px; border-radius:3px; cursor:pointer; text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{background:var(--teal-ink); color:var(--paper-3); border:1px solid var(--teal-ink); box-shadow:var(--shadow-hard); transition:transform .15s ease, box-shadow .15s ease;}
+  .btn-primary:hover{transform:translate(-2px,-2px); box-shadow:6px 6px 0 rgba(15,61,50,0.25);}
+  .btn-ghost{background:transparent; border:1px solid var(--ink); color:var(--ink);}
+  .btn-ghost:hover{background:var(--ink); color:var(--paper);}
+
+  .ticket-shell{position:relative;}
+  .ticket{background:var(--paper-3); border:1px solid var(--line); border-radius:6px; padding:22px 22px 20px; box-shadow:8px 8px 0 rgba(33,28,20,0.12); position:relative; transform:rotate(-1.2deg);}
+  .ticket-top{display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px dashed var(--line); padding-bottom:14px; margin-bottom:14px;}
+  .case-id{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-faint);}
+  .case-title{font-family:'Fraunces',serif; font-size:20px; margin-top:4px;}
+  .case-loc{font-size:13px; color:var(--ink-soft); margin-top:2px;}
+  .hero-stamp{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12px; letter-spacing:0.06em; border:2px solid var(--gold); color:var(--gold); padding:5px 10px; border-radius:3px; transform:rotate(6deg);}
+  .ticket-photo{height:120px; border-radius:4px; margin-bottom:14px; background:repeating-linear-gradient(135deg, #6b6250 0 3px, #7a7060 3px 7px), linear-gradient(160deg,#8a8170,#544c3c); position:relative; overflow:hidden;}
+  .ticket-photo img{width:100%; height:100%; object-fit:cover; display:block;}
+  .ticket-photo span{position:absolute; bottom:8px; left:10px; font-family:'JetBrains Mono',monospace; font-size:11px; color:#EFE9D8; background:rgba(33,28,20,0.55); padding:2px 6px; border-radius:2px;}
+  .ticket-row{display:flex; justify-content:space-between; font-size:13px; color:var(--ink-soft); margin-top:6px;}
+  .pin{position:absolute; top:-9px; left:26px; width:16px; height:16px; border-radius:50%; background:var(--rust); box-shadow:0 3px 4px rgba(0,0,0,0.25);}
+
+  /* ---------- SECTION HEADS & CARDS ---------- */
+  section{padding:70px 0;}
+  .section-head{max-width:640px; margin-bottom:44px;}
+  .section-head h2{font-size:34px; margin-bottom:14px;}
+  .section-head p{color:var(--ink-soft); font-size:16.5px;}
+
+  .problem-row{display:grid; grid-template-columns:repeat(3,1fr); gap:34px;}
+  .case-note{background:var(--paper-3); border:1px solid var(--line); padding:26px 24px 30px; position:relative; box-shadow:var(--shadow-hard);}
+  .case-note:nth-child(1){transform:rotate(-1deg);}
+  .case-note:nth-child(2){transform:rotate(0.8deg);}
+  .case-note:nth-child(3){transform:rotate(-0.4deg);}
+  .case-note .pin{left:50%; margin-left:-8px;}
+  .case-note h3{font-size:19px; margin-bottom:10px; padding-top:6px;}
+  .case-note p{font-size:14.5px; color:var(--ink-soft); margin:0 0 14px;}
+  .note-annot{font-family:'Caveat',cursive; font-size:22px; color:var(--rust); line-height:1.15; transform:rotate(-1deg);}
+
+  /* ---------- PIPELINE ---------- */
+  .pipeline-wrap{overflow-x:auto; padding-bottom:6px;}
+  .pipeline{display:flex; align-items:stretch; gap:0; min-width:880px;}
+  .stage{flex:1; background:var(--paper-3); border:1px solid var(--line); border-radius:6px; padding:20px 18px; position:relative; margin:0 4px;}
+  .stage .num{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-faint); margin-bottom:10px;}
+  .stage h3{font-size:16.5px; margin-bottom:6px;}
+  .stage p{font-size:13px; color:var(--ink-soft); margin:0;}
+  .stage-bar{position:absolute; top:0; left:0; right:0; height:5px; border-radius:6px 6px 0 0;}
+  .stage.s1 .stage-bar{background:var(--teal);}
+  .stage.s2 .stage-bar{background:var(--gold);}
+  .stage.s3 .stage-bar{background:var(--teal);}
+  .stage.s4 .stage-bar{background:var(--indigo);}
+  .stage.s5 .stage-bar{background:var(--green);}
+  .chain-link{flex:none; width:34px; display:flex; align-items:center; justify-content:center; color:var(--ink-faint);}
+
+  /* ---------- DEMO ---------- */
+  .demo-panel{background:var(--paper-3); border:1px solid var(--line); border-radius:10px; padding:34px; box-shadow:8px 8px 0 rgba(33,28,20,0.10); display:grid; grid-template-columns:1fr 1fr; gap:40px;}
+  .demo-left h3{font-size:20px; margin-bottom:6px;}
+  .demo-left .stage-label{font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ink-faint); margin-bottom:18px; display:block;}
+  .demo-steps{list-style:none; margin:0 0 24px; padding:0; display:flex; flex-direction:column; gap:0;}
+  .demo-steps li{display:flex; align-items:center; gap:12px; padding:9px 0; font-size:14px; color:var(--ink-faint); border-left:2px solid var(--line); padding-left:16px; position:relative;}
+  .demo-steps li::before{content:""; position:absolute; left:-7px; top:14px; width:12px; height:12px; border-radius:50%; background:var(--paper-3); border:2px solid var(--ink-faint);}
+  .demo-steps li.done{color:var(--ink);}
+  .demo-steps li.done::before{background:var(--teal); border-color:var(--teal);}
+  .demo-steps li.active{color:var(--ink); font-weight:600;}
+  .demo-steps li.active::before{background:var(--gold); border-color:var(--gold);}
+  
+  .metric{margin-bottom:14px;}
+  .metric-top{display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px; font-family:'JetBrains Mono',monospace;}
+  .metric-track{height:8px; background:var(--paper-2); border-radius:6px; overflow:hidden;}
+  .metric-fill{height:100%; width:0%; background:var(--indigo); border-radius:6px; transition:width 0.9s ease;}
+
+  .verify-actions{display:flex; gap:12px; margin-top:18px;}
+  .btn-confirm, .btn-dispute{flex:1; padding:12px; border-radius:5px; font-weight:600; font-size:14.5px; cursor:pointer; font-family:'Inter',sans-serif;}
+  .btn-confirm{background:var(--green); color:var(--paper-3); border:1px solid var(--green);}
+  .btn-dispute{background:transparent; color:var(--rust); border:1px solid var(--rust);}
+  .btn-confirm:hover{filter:brightness(1.08);}
+  .btn-dispute:hover{background:var(--rust); color:var(--paper-3);}
+
+  .action-row{margin-top:6px;}
+  .btn-advance{width:100%; padding:13px; border-radius:5px; font-weight:600; font-size:14.5px; cursor:pointer; background:var(--ink); color:var(--paper-3); border:none; font-family:'Inter',sans-serif;}
+  .btn-advance:hover{background:var(--teal-ink);}
+  .btn-restart{background:transparent; border:1px solid var(--ink-faint); color:var(--ink-soft); margin-top:10px; width:100%; padding:10px; border-radius:5px; font-size:13.5px; cursor:pointer; font-family:'Inter',sans-serif;}
+
+  .demo-right{position:relative;}
+  .dticket{background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:20px; position:relative;}
+  .dticket-top{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;}
+  .compare{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;}
+  .photo-box{height:92px; border-radius:5px; position:relative; overflow:hidden;}
+  .photo-before{background:repeating-linear-gradient(120deg,#6b6250 0 3px,#7a7060 3px 8px), linear-gradient(160deg,#8a8170,#544c3c);}
+  .photo-after{background:linear-gradient(160deg,#3F7D58,#1F6F5C); background-image:linear-gradient(160deg,#3F7D58,#1F6F5C);}
+  .photo-box img{width:100%; height:100%; object-fit:cover; display:block;}
+  .photo-box span{position:absolute; bottom:6px; left:7px; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:#EFE9D8; background:rgba(33,28,20,0.5); padding:1px 5px; border-radius:2px;}
+  .photo-box.empty{background:repeating-linear-gradient(45deg, var(--paper-2), var(--paper-2) 6px, var(--paper-3) 6px, var(--paper-3) 12px); display:flex; align-items:center; justify-content:center; font-size:12px; color:var(--ink-faint); font-family:'JetBrains Mono',monospace;}
+
+  .stamp-overlay{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-14deg) scale(0.6); font-family:'JetBrains Mono',monospace; font-weight:700; font-size:30px; letter-spacing:0.05em; border:4px solid; padding:6px 18px; border-radius:6px; opacity:0; pointer-events:none; transition: opacity 0.3s ease, transform 0.3s ease;}
+  .stamp-overlay.show{opacity:0.92; transform:translate(-50%,-50%) rotate(-14deg) scale(1);}
+  .stamp-overlay.resolved{color:var(--green); border-color:var(--green);}
+  .stamp-overlay.reopened{color:var(--rust); border-color:var(--rust);}
+
+  /* ---------- TRUST TABLE ---------- */
+  .trust-table{width:100%; border-collapse:collapse; background:var(--paper-3); border:1px solid var(--line); border-radius:8px; overflow:hidden;}
+  .trust-table th{text-align:left; font-size:12.5px; font-weight:600; color:var(--ink-faint); padding:14px 18px; border-bottom:1px solid var(--line);}
+  .trust-table td{padding:15px 18px; border-bottom:1px solid var(--line); font-size:14.5px;}
+  .trust-table tr:last-child td{border-bottom:none;}
+  .score-bar-track{width:140px; height:8px; background:var(--paper-2); border-radius:6px; overflow:hidden; display:inline-block; vertical-align:middle; margin-right:10px;}
+  .score-bar-fill{height:100%; background:var(--teal); border-radius:6px; transition:width .6s ease, background .4s ease;}
+  .score-num{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-soft);}
+
+  /* ---------- FOOTER CTA ---------- */
+  .footer-cta{background:var(--ink); color:var(--paper-3); border-radius:14px; padding:56px 48px; display:flex; justify-content:space-between; align-items:center; gap:30px; flex-wrap:wrap;}
+  .footer-cta h2{color:var(--paper-3); font-size:30px; max-width:16ch;}
+  .footer-cta p{color:#C9C0A8; margin-top:8px; max-width:38ch;}
+  .footer-cta .btn-primary{background:var(--paper-3); color:var(--ink); border-color:var(--paper-3);}
+  footer.site-footer{padding:36px 0 60px; font-size:13.5px; color:var(--ink-faint); display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+
+  /* ---------- PAGE ROUTING ---------- */
+  .subpage-main{padding:56px 0 90px;}
+
+  /* ---------- FILE A COMPLAINT PAGE ---------- */
+  .form-head{max-width:640px; margin-bottom:36px;}
+  .form-head h1{font-size:36px; margin-bottom:12px;}
+  .form-head p{color:var(--ink-soft); font-size:16.5px;}
+  .form-layout{display:grid; grid-template-columns:1.4fr 1fr; gap:40px; align-items:start;}
+  .panel{background:var(--paper-3); border:1px solid var(--line); border-radius:10px; padding:32px; box-shadow:8px 8px 0 rgba(33,28,20,0.10);}
+  .field{margin-bottom:22px;}
+  .field label{display:block; font-size:13.5px; font-weight:600; margin-bottom:8px; color:var(--ink);}
+  .field .hint{font-size:12.5px; color:var(--ink-faint); font-weight:400; margin-top:6px;}
+  .field input[type=text], .field select, .field textarea{width:100%; font-family:'Inter',sans-serif; font-size:15px; color:var(--ink); background:var(--paper); border:1px solid var(--line); border-radius:5px; padding:12px 14px;}
+  .field input[type=text]:focus, .field select:focus, .field textarea:focus{border-color:var(--teal-ink);}
+  .field textarea{resize:vertical; min-height:90px;}
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  
+  .upload-box{border:2px dashed var(--line); border-radius:8px; padding:26px; text-align:center; cursor:pointer; background:var(--paper); transition:border-color .15s ease, background .15s ease;}
+  .upload-box:hover, .upload-box.drag{border-color:var(--teal-ink); background:rgba(31,111,92,0.06);}
+  .upload-box svg{margin:0 auto 10px;}
+  .upload-box .u-title{font-weight:600; font-size:14.5px; margin-bottom:4px;}
+  .upload-box .u-sub{font-size:12.5px; color:var(--ink-faint);}
+  #fileInput{display:none;}
+  .preview-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px;}
+  .preview-item{position:relative; height:84px; border-radius:5px; overflow:hidden; border:1px solid var(--line);}
+  .preview-item img{width:100%; height:100%; object-fit:cover;}
+  .preview-item button{position:absolute; top:4px; right:4px; width:20px; height:20px; border-radius:50%; border:none; background:rgba(33,28,20,0.65); color:#fff; font-size:12px; line-height:1; cursor:pointer;}
+  .btn-primary.btn-block{width:100%; justify-content:center;}
+  .error-text{color:var(--rust); font-size:13px; margin-top:6px; display:none;}
+  .error-text.show{display:block;}
+
+  .side-sticky{position:sticky; top:96px;}
+  .stamp-pending{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12px; letter-spacing:0.06em; border:2px solid var(--gold); color:var(--gold); padding:5px 10px; border-radius:3px; transform:rotate(6deg); white-space:nowrap;}
+  .side-sticky .ticket-row span:last-child{text-align:right;}
+  .side-note{font-family:'Caveat',cursive; font-size:20px; color:var(--ink-faint); margin-top:18px; line-height:1.2;}
+
+  .success-panel{display:none; text-align:center; padding:60px 20px;}
+  .success-panel.show{display:block;}
+  .success-panel .stamp{display:inline-block; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px; letter-spacing:0.06em; color:var(--green); border:2px solid var(--green); padding:8px 16px; border-radius:4px; transform:rotate(-3deg); margin-bottom:20px;}
+  .success-panel h2{font-size:28px; margin-bottom:10px;}
+  .success-panel p{color:var(--ink-soft); max-width:46ch; margin:0 auto 28px;}
+  .success-actions{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+
+  /* ---------- MY COMPLAINTS / PROFILE PAGE ---------- */
+  .profile-head{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-bottom:34px;}
+  .profile-id{display:flex; align-items:center; gap:16px;}
+  .avatar{width:56px; height:56px; border-radius:50%; background:var(--indigo); color:var(--paper-3); display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-size:22px; flex:none;}
+  .profile-name{font-size:26px;}
+  .profile-sub{color:var(--ink-soft); font-size:14px; margin-top:2px;}
+
+  .stat-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .stat-chip{background:var(--paper-3); border:1px solid var(--line); border-radius:8px; padding:10px 16px; text-align:center; min-width:96px;}
+  .stat-chip .num{font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:600;}
+  .stat-chip .lbl{font-size:11.5px; color:var(--ink-faint); margin-top:2px;}
+
+  .tabs{display:flex; gap:6px; border-bottom:1px solid var(--line); margin-bottom:28px; overflow-x:auto;}
+  .tab-btn{font-family:'Inter',sans-serif; font-weight:600; font-size:14.5px; color:var(--ink-faint); background:none; border:none; padding:12px 6px; cursor:pointer; position:relative; white-space:nowrap; margin-right:22px;}
+  .tab-btn .count{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-faint); margin-left:6px;}
+  .tab-btn.active{color:var(--ink);}
+  .tab-btn.active::after{content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--teal-ink);}
+  .tab-btn:hover{color:var(--ink);}
+
+  .empty-state{background:var(--paper-3); border:1px dashed var(--line); border-radius:10px; padding:56px 24px; text-align:center; color:var(--ink-soft);}
+  .empty-state h3{font-size:19px; margin-bottom:8px; color:var(--ink);}
+  .empty-state a{color:var(--teal-ink); font-weight:600; text-decoration:underline;}
+
+  .case-list{display:flex; flex-direction:column; gap:18px;}
+  .case-card{background:var(--paper-3); border:1px solid var(--line); border-radius:10px; padding:22px 24px; box-shadow:5px 5px 0 rgba(33,28,20,0.08);}
+  .case-card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; margin-bottom:14px;}
+  .pc-id{font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ink-faint);}
+  .pc-title{font-family:'Fraunces',serif; font-size:19px; margin-top:3px;}
+  .pc-loc{font-size:13.5px; color:var(--ink-soft); margin-top:3px;}
+  .badge{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:11px; letter-spacing:0.05em; padding:5px 10px; border-radius:3px; white-space:nowrap; text-transform:uppercase;}
+  .badge.ongoing{color:var(--gold); border:2px solid var(--gold);}
+  .badge.closed{color:var(--green); border:2px solid var(--green);}
+  .badge.disputed{color:var(--rust); border:2px solid var(--rust);}
+
+  .case-meta{display:flex; gap:22px; flex-wrap:wrap; font-size:13px; color:var(--ink-soft); margin-bottom:16px;}
+  .case-meta span b{color:var(--ink); font-weight:600;}
+  .case-photos{display:grid; grid-template-columns:repeat(auto-fill, minmax(90px, 1fr)); gap:10px; margin-bottom:16px;}
+  .case-photos .ph{height:78px; border-radius:5px; overflow:hidden; border:1px solid var(--line); position:relative;}
+  .case-photos .ph img{width:100%; height:100%; object-fit:cover;}
+  .case-photos .ph span{position:absolute; bottom:4px; left:5px; font-family:'JetBrains Mono',monospace; font-size:9.5px; color:#EFE9D8; background:rgba(33,28,20,0.55); padding:1px 4px; border-radius:2px;}
+  .compare-label{font-size:12px; color:var(--ink-faint); font-weight:600; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.04em;}
+  .case-actions{display:flex; gap:10px; flex-wrap:wrap; border-top:1px dashed var(--line); padding-top:16px; margin-top:4px;}
+  .btn-confirm, .btn-dispute-small{font-family:'Inter',sans-serif; font-weight:600; font-size:13.5px; padding:9px 16px; border-radius:5px; cursor:pointer;}
+  .btn-confirm{background:var(--green); color:var(--paper-3); border:1px solid var(--green);}
+  .btn-confirm:hover{filter:brightness(1.08);}
+  .btn-dispute-small{background:transparent; color:var(--rust); border:1px solid var(--rust);}
+  .btn-dispute-small:hover{background:var(--rust); color:var(--paper-3);}
+  .verified-note{font-size:12.5px; color:var(--green); font-weight:600;}
+
+  @media (max-width: 880px){
+    .hero-grid{grid-template-columns:1fr;}
+    .navlinks{display:none;}
+    h1.hero-title{font-size:38px;}
+    .problem-row{grid-template-columns:1fr; gap:44px;}
+    .demo-panel{grid-template-columns:1fr;}
+    .footer-cta{flex-direction:column; align-items:flex-start;}
+    .form-layout{grid-template-columns:1fr;}
+    .two-col{grid-template-columns:1fr;}
+    .case-meta{gap:12px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="#home" onclick="showPage('home'); return false;">
+      <svg class="seal" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="18" stroke="#211C14" stroke-width="2"/>
+        <circle cx="20" cy="20" r="12.5" stroke="#211C14" stroke-width="1.2" stroke-dasharray="2 3"/>
+        <path d="M13 21l4.5 4.5L27 15" stroke="#1F6F5C" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      City Trace
+    </a>
+    <nav class="navlinks">
+      <a href="#problem" onclick="goHome('problem'); return false;">The gap</a>
+      <a href="#pipeline" onclick="goHome('pipeline'); return false;">How it works</a>
+      <a href="#demo" onclick="goHome('demo'); return false;">Try the ledger</a>
+      <a href="#trust" onclick="goHome('trust'); return false;">Trust scores</a>
+      <a href="#profile" onclick="showPage('profile'); return false;">My complaints</a>
+    </nav>
+    <button class="nav-cta" onclick="showPage('complaint')">File a complaint</button>
+  </div>
+</header>
+
+<main id="page-home" class="page">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="kicker-line"><span class="dot"></span> Municipal complaint verification</div>
+        <h1 class="hero-title">A department can say "resolved."<br><em>Only proof can close the case.</em></h1>
+        <p class="hero-sub">City Trace inserts an independent verification layer between a department's claim and a citizen's confirmation — so no pothole, streetlight, or leak gets closed on a label alone.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="goHome('demo')">Walk through a case</button>
+          <a class="btn-ghost" href="#pipeline" onclick="goHome('pipeline'); return false;">See the verification layer</a>
+        </div>
+      </div>
+      <div class="ticket-shell">
+        <div class="ticket">
+          <div class="pin"></div>
+          <div class="ticket-top">
+            <div>
+              <div class="case-id">#CVC-2381</div>
+              <div class="case-title">Pothole — MG Road</div>
+              <div class="case-loc">Sector 12, filed 14 Sep</div>
+            </div>
+            <div class="hero-stamp">PENDING PROOF</div>
+          </div>
+          <div class="ticket-photo"><img src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=640&h=240&q=80" alt="Pothole on MG Road, as reported by the citizen"><span>geotag 28.61°N · timestamp 09:14</span></div>
+          <div class="ticket-row"><span>Reported by</span><span>Anon. citizen #4471</span></div>
+          <div class="ticket-row"><span>Assigned to</span><span>Roads &amp; Infra Dept.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM, PIPELINE, DEMO -->
+  <section id="problem">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Closing a case shouldn't be self-reported</h2>
+        <p>Right now, the record between "in progress" and "resolved" is just a status change. Nothing forces it to be true.</p>
+      </div>
+      <div class="problem-row">
+        <div class="case-note"><div class="pin"></div><h3>No reliable proof</h3><p>A department can flip a status without attaching anything that shows the fix actually happened on the ground.</p><div class="note-annot">"resolved" ≠ fixed</div></div>
+        <div class="case-note"><div class="pin"></div><h3>Evidence can be faked</h3><p>Old photos, unrelated sites, or reused images can be uploaded as if they were today's fix — with no way to check.</p><div class="note-annot">whose photo is this?</div></div>
+        <div class="case-note"><div class="pin"></div><h3>Citizens lose control</h3><p>The person who filed the complaint rarely gets a real, structured chance to say whether the problem is actually gone.</p><div class="note-annot">nobody asked me</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pipeline">
+    <div class="wrap">
+      <div class="section-head"><h2>The resolution verification layer</h2><p>One extra step, split into five checkpoints. Every checkpoint is logged, so a case can only move forward with something to show for it.</p></div>
+      <div class="pipeline-wrap">
+        <div class="pipeline">
+          <div class="stage s1"><div class="stage-bar"></div><div class="num">01</div><h3>Reported</h3><p>Citizen files the issue with a photo, geotag, and timestamp attached at the source.</p></div><div class="chain-link">⛓</div>
+          <div class="stage s2"><div class="stage-bar"></div><div class="num">02</div><h3>Work done</h3><p>Department marks the fix complete — this alone can't close the case.</p></div><div class="chain-link">⛓</div>
+          <div class="stage s3"><div class="stage-bar"></div><div class="num">03</div><h3>Proof submitted</h3><p>A before/after photo is uploaded and anchored to a tamper-evident record.</p></div><div class="chain-link">⛓</div>
+          <div class="stage s4"><div class="stage-bar"></div><div class="num">04</div><h3>Verification</h3><p>An automated engine checks time, location, and image difference between before and after.</p></div><div class="chain-link">⛓</div>
+          <div class="stage s5"><div class="stage-bar"></div><div class="num">05</div><h3>Resolved</h3><p>The citizen confirms in person. Only then does the case actually close.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo">
+    <div class="wrap">
+      <div class="section-head"><h2>Walk a case through the ledger</h2><p>This is case #CVC-2381 — the same pothole from the ticket above. Move it through each checkpoint yourself.</p></div>
+      <div class="demo-panel">
+        <div class="demo-left">
+          <span class="stage-label" id="stageLabel">CHECKPOINT 2 OF 5</span>
+          <h3 id="stageHeading">Department marks the work done</h3>
+          <ul class="demo-steps" id="stepsList">
+            <li class="done" data-step="1">Complaint filed &amp; anchored</li>
+            <li class="active" data-step="2">Department marks work done</li>
+            <li data-step="3">Before/after proof submitted</li>
+            <li data-step="4">Automated engine verifies proof</li>
+            <li data-step="5">Citizen confirms or disputes</li>
+          </ul>
+          <div id="metricsBlock" style="display:none;">
+            <div class="metric"><div class="metric-top"><span>Timestamp match</span><span id="m1val">—</span></div><div class="metric-track"><div class="metric-fill" id="m1fill"></div></div></div>
+            <div class="metric"><div class="metric-top"><span>Location match</span><span id="m2val">—</span></div><div class="metric-track"><div class="metric-fill" id="m2fill"></div></div></div>
+            <div class="metric"><div class="metric-top"><span>Image difference</span><span id="m3val">—</span></div><div class="metric-track"><div class="metric-fill" id="m3fill"></div></div></div>
+          </div>
+          <div id="verifyBlock" style="display:none;">
+            <p style="font-size:14px; color:var(--ink-soft); margin-bottom:6px;">Engine passed the proof. Does this match what you see at the site?</p>
+            <div class="verify-actions">
+              <button class="btn-confirm" onclick="citizenConfirms()">Confirm fixed</button>
+              <button class="btn-dispute" onclick="citizenDisputes()">Dispute</button>
+            </div>
+          </div>
+          <div class="action-row">
+            <button class="btn-advance" id="advanceBtn" onclick="advance()">Mark work done</button>
+            <button class="btn-restart" id="restartBtn" style="display:none;" onclick="resetDemo()">Start a new case</button>
+          </div>
+        </div>
+        <div class="demo-right">
+          <div class="dticket">
+            <div class="dticket-top">
+              <div><div class="case-id">#CVC-2381</div><div class="case-title" style="font-size:17px;">Pothole — MG Road</div></div>
+            </div>
+            <div class="compare">
+              <div class="photo-box photo-before" id="beforePhoto"><img src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=300&h=180&q=80" alt="Before: pothole on MG Road"><span>before</span></div>
+              <div class="photo-box empty" id="afterPhoto">after · pending</div>
+            </div>
+            <div class="ticket-row"><span>Dept.</span><span>Roads &amp; Infra Dept.</span></div>
+            <div class="ticket-row"><span>Anchor record</span><span class="case-id" id="anchorHash">0x9f...pending</span></div>
+            <div class="stamp-overlay" id="stampOverlay">RESOLVED</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section id="trust">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Every department earns a trust score</h2>
+        <p>Confirmed resolutions raise it. Disputed ones lower it. It's built from citizen verifications, not self-reporting. <b>Scores reflect global states across all cases.</b></p>
+      </div>
+      <table class="trust-table">
+        <thead>
+          <tr><th>Department</th><th>Cases closed</th><th>Trust score</th><th></th></tr>
+        </thead>
+        <tbody id="trustTableBody">
+          <!-- Dynamically generated via JS from LocalStorage -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FOOTER CTA -->
+  <section>
+    <div class="wrap">
+      <div class="footer-cta">
+        <div>
+          <h2>Report the next pothole with proof built in.</h2>
+          <p>Every complaint gets a case ID, a location-locked timeline, and a real say for the person who filed it.</p>
+        </div>
+        <button class="btn-primary" onclick="showPage('complaint')">File a complaint</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FILE A COMPLAINT PAGE ============ -->
+<div id="page-complaint" class="page" style="display:none;">
+  <div class="wrap subpage-main">
+    <div id="formView">
+      <div class="form-head">
+        <div class="kicker-line"><span class="dot"></span> New case</div>
+        <h1>File a complaint</h1>
+        <p>Tell us what's wrong and where. Every complaint gets a case ID, a geotagged photo, and a live status you can track from your profile.</p>
+      </div>
+      <form id="complaintForm" novalidate>
+        <div class="form-layout">
+          <div class="panel">
+            <div class="field">
+              <label for="issueType">Type of issue</label>
+              <select id="issueType" required>
+                <option value="" disabled selected>Select an issue type</option>
+                <option value="Pothole">Pothole / road damage</option>
+                <option value="Streetlight">Streetlight not working</option>
+                <option value="Water Leak">Water leak / pipe burst</option>
+                <option value="Sanitation">Garbage not collected / sanitation</option>
+                <option value="Drainage">Blocked drain / waterlogging</option>
+                <option value="Illegal Construction">Illegal construction / encroachment</option>
+                <option value="Stray Animals">Stray animal issue</option>
+                <option value="Electrical">Exposed wiring / electrical hazard</option>
+                <option value="Other">Other</option>
+              </select>
+              <div class="error-text" id="err-issueType">Please select the type of issue.</div>
+            </div>
+            <div class="two-col">
+              <div class="field">
+                <label for="area">Area</label>
+                <input type="text" id="area" placeholder="e.g. Sector 12" required>
+                <div class="error-text" id="err-area">Please enter the area.</div>
+              </div>
+              <div class="field">
+                <label for="landmark">Nearest landmark</label>
+                <input type="text" id="landmark" placeholder="e.g. Opposite City Park gate 2" required>
+                <div class="error-text" id="err-landmark">Please enter a nearby landmark.</div>
+              </div>
+            </div>
+            <div class="field">
+              <label for="department">Department this belongs to</label>
+              <select id="department" required>
+                <option value="" disabled selected>Select a department</option>
+                <option value="Roads & Infra Dept.">Roads &amp; Infra Dept.</option>
+                <option value="Water Supply Board">Water Supply Board</option>
+                <option value="Sanitation Dept.">Sanitation Dept.</option>
+                <option value="Street Lighting">Street Lighting</option>
+                <option value="Electricity Board">Electricity Board</option>
+                <option value="Urban Planning">Urban Planning</option>
+                <option value="Animal Control">Animal Control</option>
+                <option value="Not sure">Not sure — let City Trace route it</option>
+              </select>
+              <div class="hint">Not sure which department? Pick "Not sure" and it'll be routed based on the issue type.</div>
+            </div>
+            <div class="field">
+              <label for="details">Details <span style="font-weight:400; color:var(--ink-faint);">(optional)</span></label>
+              <textarea id="details" placeholder="Anything else that helps — size of the pothole, how long the light's been out, etc."></textarea>
+            </div>
+            <div class="field">
+              <label>Photos of the issue</label>
+              <div class="upload-box" id="uploadBox">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3M12 3v12M12 3l-4 4M12 3l4 4" stroke="#5B5340" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div class="u-title">Click to upload, or drag photos here</div>
+                <div class="u-sub">JPG or PNG. These become the "before" record on your case.</div>
+              </div>
+              <input type="file" id="fileInput" accept="image/*" multiple>
+              <div class="preview-grid" id="previewGrid"></div>
+              <div class="error-text" id="err-photos">Please attach at least one photo of the issue.</div>
+            </div>
+            <button type="submit" class="btn-primary btn-block" id="submitBtn">Submit complaint</button>
+          </div>
+          <div class="side-sticky">
+            <div class="ticket">
+              <div class="pin"></div>
+              <div class="ticket-top">
+                <div>
+                  <div class="case-id" id="previewCaseId">#CVC-——</div>
+                  <div class="case-title" id="previewTitle">New complaint</div>
+                  <div class="case-loc" id="previewLoc">Fill in the form to preview your case</div>
+                </div>
+                <div class="stamp-pending">FILED · UNSEEN</div>
+              </div>
+              <div class="ticket-row"><span>Department</span><span id="previewDept">—</span></div>
+              <div class="ticket-row"><span>Photos attached</span><span id="previewPhotoCount">0</span></div>
+              <div class="ticket-row"><span>Status</span><span>Will be marked ongoing</span></div>
+            </div>
+            <p class="side-note">this is what your case card will look like on your profile</p>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="success-panel" id="successPanel">
+      <div class="stamp">CASE ANCHORED</div>
+      <h2 id="successTitle">Complaint filed</h2>
+      <p id="successBody">Your case has been logged and marked ongoing. You can track it any time from your profile.</p>
+      <div class="success-actions">
+        <button class="btn-primary" style="width:auto;" onclick="showPage('profile')">View my complaints</button>
+        <button class="btn-ghost" onclick="resetComplaintForm()">File another complaint</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MY COMPLAINTS / PROFILE PAGE ============ -->
+<div id="page-profile" class="page" style="display:none;">
+  <div class="wrap subpage-main">
+    <div class="profile-head">
+      <div class="profile-id">
+        <div class="avatar">AC</div>
+        <div>
+          <div class="profile-name">Anon. citizen #4471</div>
+          <div class="profile-sub">Member since this session · complaints saved to this browser</div>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-chip"><div class="num" id="statAll">0</div><div class="lbl">Total filed</div></div>
+        <div class="stat-chip"><div class="num" id="statOngoing">0</div><div class="lbl">Ongoing</div></div>
+        <div class="stat-chip"><div class="num" id="statClosed">0</div><div class="lbl">Closed &amp; verified</div></div>
+      </div>
+    </div>
+
+    <!-- 5 DYNAMIC CHECKPOINT TABS -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="1">01 Reported <span class="count" id="count1">(0)</span></button>
+      <button class="tab-btn" data-tab="2">02 Work Done <span class="count" id="count2">(0)</span></button>
+      <button class="tab-btn" data-tab="3">03 Proof Submitted <span class="count" id="count3">(0)</span></button>
+      <button class="tab-btn" data-tab="4">04 Verification <span class="count" id="count4">(0)</span></button>
+      <button class="tab-btn" data-tab="5">05 Resolved <span class="count" id="count5">(0)</span></button>
+    </div>
+
+    <div id="listContainer"></div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap" style="display:flex; justify-content:space-between; width:100%; flex-wrap:wrap; gap:10px;">
+    <span>City Trace — a resolution verification layer for civic reporting.</span>
+    <span>Concept prototype</span>
+  </div>
+</footer>
+
+<script>
+  /* ============ TRUST DATA MANAGEMENT ============ */
+  const DEFAULT_TRUST = {
+    "Water Supply Board": { score: 91, cases: 312 },
+    "Roads & Infra Dept.": { score: 78, cases: 247 },
+    "Street Lighting": { score: 86, cases: 198 },
+    "Sanitation Dept.": { score: 64, cases: 401 },
+    "Electricity Board": { score: 82, cases: 154 },
+    "Urban Planning": { score: 75, cases: 90 },
+    "Animal Control": { score: 68, cases: 120 }
+  };
+
+  function getTrustData() {
+    return JSON.parse(localStorage.getItem('cityTraceTrust')) || DEFAULT_TRUST;
+  }
+  function saveTrustData(data) {
+    localStorage.setItem('cityTraceTrust', JSON.stringify(data));
+    renderTrustTable();
+  }
+  function updateDeptTrust(dept, scoreDelta, caseDelta) {
+    let data = getTrustData();
+    if (!data[dept]) data[dept] = { score: 70, cases: 100 };
+    data[dept].score = Math.max(0, Math.min(100, data[dept].score + scoreDelta));
+    data[dept].cases += caseDelta;
+    saveTrustData(data);
+  }
+
+  function renderTrustTable() {
+    const tbody = document.getElementById('trustTableBody');
+    if (!tbody) return;
+    const data = getTrustData();
+    let html = '';
+    for (const [dept, info] of Object.entries(data)) {
+      let color = 'var(--teal)';
+      if (info.score < 70) color = 'var(--rust)';
+      else if (info.score < 85) color = 'var(--gold)';
+      
+      html += `
+        <tr>
+          <td>${dept}</td>
+          <td class="score-num">${info.cases}</td>
+          <td>
+            <span class="score-bar-track">
+              <span class="score-bar-fill" style="width:${info.score}%; background:${color};"></span>
+            </span>
+            <span class="score-num">${info.score}</span>
+          </td>
+          <td></td>
+        </tr>
+      `;
+    }
+    tbody.innerHTML = html;
+  }
+
+  /* ============ PAGE ROUTING ============ */
+  const PAGES = ['home', 'complaint', 'profile'];
+  function showPage(name){
+    if(!PAGES.includes(name)) name = 'home';
+    PAGES.forEach(p => { document.getElementById('page-' + p).style.display = (p === name) ? '' : 'none'; });
+    window.scrollTo({top:0, behavior:'instant'});
+    history.replaceState(null, '', name === 'home' ? '#' : '#' + name);
+    if(name === 'profile' && typeof renderProfile === 'function') renderProfile();
+  }
+  function goHome(sectionId){
+    showPage('home');
+    if(sectionId){ requestAnimationFrame(()=>{ const el = document.getElementById(sectionId); if(el) el.scrollIntoView({behavior:'smooth'}); }); }
+  }
+  function initRouting(){
+    const hash = location.hash.replace('#', '');
+    if(PAGES.includes(hash) && hash !== 'home'){ showPage(hash); } 
+    else if(hash){ goHome(hash); } 
+    else { showPage('home'); }
+  }
+  initRouting();
+  renderTrustTable(); // Init trust table on load
+
+  /* ============ HOMEPAGE DEMO LEDGER ============ */
+  let step = 2;
+  const stepLabels = {
+    2: {label:"CHECKPOINT 2 OF 5", heading:"Department marks the work done", btn:"Mark work done"},
+    3: {label:"CHECKPOINT 3 OF 5", heading:"Department submits before/after proof", btn:"Upload proof photo"},
+    4: {label:"CHECKPOINT 4 OF 5", heading:"Automated engine checks the proof", btn:"Run verification"},
+    5: {label:"CHECKPOINT 5 OF 5", heading:"Citizen confirms on the ground", btn:""}
+  };
+
+  function updateSteps(){
+    document.querySelectorAll('#stepsList li').forEach(li=>{
+      const n = parseInt(li.dataset.step,10);
+      li.classList.remove('done','active');
+      if(n < step) li.classList.add('done');
+      if(n === step) li.classList.add('active');
+    });
+  }
+
+  function advance(){
+    const btn = document.getElementById('advanceBtn');
+    if(step === 2){
+      step = 3;
+      document.getElementById('afterPhoto').className = 'photo-box empty';
+      document.getElementById('afterPhoto').textContent = 'after · pending';
+    } else if(step === 3){
+      step = 4;
+      const after = document.getElementById('afterPhoto');
+      after.className = 'photo-box photo-after';
+      after.innerHTML = '<img src="https://images.unsplash.com/photo-1584306716075-8eb3de2849e3?auto=format&fit=crop&w=300&h=180&q=80" alt="After: repaired section of MG Road"><span>after</span>';
+      document.getElementById('anchorHash').textContent = '0x9f3a...c281';
+    } else if(step === 4){
+      runVerification();
+      return;
+    }
+    const info = stepLabels[step];
+    document.getElementById('stageLabel').textContent = info.label;
+    document.getElementById('stageHeading').textContent = info.heading;
+    btn.textContent = info.btn;
+    updateSteps();
+  }
+
+  function runVerification(){
+    document.getElementById('advanceBtn').style.display = 'none';
+    document.getElementById('metricsBlock').style.display = 'block';
+    step = 4;
+    updateSteps();
+    document.getElementById('stageLabel').textContent = stepLabels[4].label;
+    document.getElementById('stageHeading').textContent = stepLabels[4].heading;
+
+    const metrics = [{fill:'m1fill', val:'m1val', pct:97, text:'97% match'}, {fill:'m2fill', val:'m2val', pct:94, text:'94% match'}, {fill:'m3fill', val:'m3val', pct:88, text:'88% changed'}];
+    metrics.forEach((m,i)=>{
+      setTimeout(()=>{
+        document.getElementById(m.fill).style.width = m.pct + '%';
+        document.getElementById(m.val).textContent = m.text;
+      }, 350 * (i+1));
+    });
+    setTimeout(()=>{
+      step = 5;
+      updateSteps();
+      document.getElementById('stageLabel').textContent = stepLabels[5].label;
+      document.getElementById('stageHeading').textContent = stepLabels[5].heading;
+      document.getElementById('verifyBlock').style.display = 'block';
+    }, 1550);
+  }
+
+  function citizenConfirms(){
+    showStamp('resolved','RESOLVED');
+    updateDeptTrust('Roads & Infra Dept.', +4, 1);
+    document.getElementById('verifyBlock').style.display = 'none';
+    document.getElementById('restartBtn').style.display = 'block';
+  }
+
+  function citizenDisputes(){
+    showStamp('reopened','REOPENED');
+    updateDeptTrust('Roads & Infra Dept.', -6, 0);
+    document.getElementById('verifyBlock').style.display = 'none';
+    document.getElementById('restartBtn').style.display = 'block';
+    document.getElementById('restartBtn').textContent = 'Loop back to work done';
+    document.getElementById('restartBtn').onclick = loopBack;
+  }
+
+  function loopBack(){
+    document.getElementById('stampOverlay').classList.remove('show');
+    document.getElementById('metricsBlock').style.display = 'none';
+    ['m1fill','m2fill','m3fill'].forEach(id=> document.getElementById(id).style.width = '0%');
+    ['m1val','m2val','m3val'].forEach(id=> document.getElementById(id).textContent = '—');
+    document.getElementById('advanceBtn').style.display = 'block';
+    document.getElementById('restartBtn').style.display = 'none';
+    document.getElementById('restartBtn').textContent = 'Start a new case';
+    document.getElementById('restartBtn').onclick = resetDemo;
+    step = 2;
+    const info = stepLabels[2];
+    document.getElementById('stageLabel').textContent = info.label;
+    document.getElementById('stageHeading').textContent = info.heading;
+    document.getElementById('advanceBtn').textContent = info.btn;
+    updateSteps();
+  }
+
+  function showStamp(cls, text){
+    const stamp = document.getElementById('stampOverlay');
+    stamp.className = 'stamp-overlay ' + cls;
+    stamp.textContent = text;
+    requestAnimationFrame(()=> stamp.classList.add('show'));
+  }
+
+  function resetDemo(){
+    document.getElementById('stampOverlay').classList.remove('show');
+    document.getElementById('metricsBlock').style.display = 'none';
+    document.getElementById('verifyBlock').style.display = 'none';
+    ['m1fill','m2fill','m3fill'].forEach(id=> document.getElementById(id).style.width = '0%');
+    ['m1val','m2val','m3val'].forEach(id=> document.getElementById(id).textContent = '—');
+    document.getElementById('afterPhoto').className = 'photo-box empty';
+    document.getElementById('afterPhoto').textContent = 'after · pending';
+    document.getElementById('anchorHash').textContent = '0x9f...pending';
+    document.getElementById('advanceBtn').style.display = 'block';
+    document.getElementById('restartBtn').style.display = 'none';
+    document.getElementById('restartBtn').textContent = 'Start a new case';
+    document.getElementById('restartBtn').onclick = resetDemo;
+    step = 2;
+    const info = stepLabels[2];
+    document.getElementById('stageLabel').textContent = info.label;
+    document.getElementById('stageHeading').textContent = info.heading;
+    document.getElementById('advanceBtn').textContent = info.btn;
+    updateSteps();
+  }
+
+  /* ============ FILE A COMPLAINT PAGE ============ */
+  const issueLabels = {
+    'Pothole':'Pothole', 'Streetlight':'Streetlight out', 'Water Leak':'Water leak',
+    'Sanitation':'Sanitation issue', 'Drainage':'Blocked drain', 'Illegal Construction':'Illegal construction',
+    'Stray Animals':'Stray animal issue', 'Electrical':'Electrical hazard', 'Other':'Reported issue'
+  };
+  const autoDept = {
+    'Pothole':'Roads & Infra Dept.', 'Streetlight':'Street Lighting', 'Water Leak':'Water Supply Board',
+    'Sanitation':'Sanitation Dept.', 'Drainage':'Water Supply Board', 'Illegal Construction':'Urban Planning',
+    'Stray Animals':'Animal Control', 'Electrical':'Electricity Board'
+  };
+
+  let photoFiles = [];
+  const issueType = document.getElementById('issueType');
+  const areaEl = document.getElementById('area');
+  const landmarkEl = document.getElementById('landmark');
+  const deptEl = document.getElementById('department');
+  const uploadBox = document.getElementById('uploadBox');
+  const fileInput = document.getElementById('fileInput');
+  const previewGrid = document.getElementById('previewGrid');
+
+  function updateTicketPreview(){
+    document.getElementById('previewTitle').textContent = issueType.value ? (issueLabels[issueType.value] || issueType.value) : 'New complaint';
+    const area = areaEl.value.trim();
+    const landmark = landmarkEl.value.trim();
+    document.getElementById('previewLoc').textContent = (area || landmark) ? [area, landmark].filter(Boolean).join(' · ') : 'Fill in the form to preview your case';
+    document.getElementById('previewDept').textContent = deptEl.value || '—';
+    document.getElementById('previewPhotoCount').textContent = photoFiles.length;
+  }
+
+  issueType.addEventListener('change', ()=>{ if(!deptEl.value && autoDept[issueType.value]) deptEl.value = autoDept[issueType.value]; updateTicketPreview(); });
+  [areaEl, landmarkEl, deptEl].forEach(el => el.addEventListener('input', updateTicketPreview));
+  deptEl.addEventListener('change', updateTicketPreview);
+  uploadBox.addEventListener('click', ()=> fileInput.click());
+  uploadBox.addEventListener('dragover', e=>{ e.preventDefault(); uploadBox.classList.add('drag'); });
+  uploadBox.addEventListener('dragleave', ()=> uploadBox.classList.remove('drag'));
+  uploadBox.addEventListener('drop', e=>{ e.preventDefault(); uploadBox.classList.remove('drag'); handleFiles(e.dataTransfer.files); });
+  fileInput.addEventListener('change', ()=> handleFiles(fileInput.files));
+
+  function handleFiles(fileList){
+    Array.from(fileList).forEach(file=>{
+      if(!file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = e=>{
+        photoFiles.push({name:file.name, dataUrl:e.target.result});
+        renderPreviews(); updateTicketPreview();
+      };
+      reader.readAsDataURL(file);
+    });
+    fileInput.value = '';
+  }
+
+  function renderPreviews(){
+    previewGrid.innerHTML = '';
+    photoFiles.forEach((f, i)=>{
+      const item = document.createElement('div');
+      item.className = 'preview-item';
+      item.innerHTML = `<img src="${f.dataUrl}" alt="${f.name}"><button type="button" aria-label="Remove photo">✕</button>`;
+      item.querySelector('button').onclick = ()=>{ photoFiles.splice(i,1); renderPreviews(); updateTicketPreview(); };
+      previewGrid.appendChild(item);
+    });
+  }
+
+  function setError(fieldId, show){ const el = document.getElementById('err-' + fieldId); if(el) el.classList.toggle('show', show); }
+  function resetComplaintForm(){
+    document.getElementById('complaintForm').reset();
+    photoFiles = []; renderPreviews(); updateTicketPreview();
+    ['issueType','area','landmark','photos'].forEach(f => setError(f, false));
+    document.getElementById('successPanel').classList.remove('show');
+    document.getElementById('formView').style.display = '';
+  }
+
+  document.getElementById('complaintForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    let valid = true;
+    if(!issueType.value){ setError('issueType', true); valid = false; } else setError('issueType', false);
+    if(!areaEl.value.trim()){ setError('area', true); valid = false; } else setError('area', false);
+    if(!landmarkEl.value.trim()){ setError('landmark', true); valid = false; } else setError('landmark', false);
+    if(photoFiles.length === 0){ setError('photos', true); valid = false; } else setError('photos', false);
+    if(!valid) return;
+
+    const dept = deptEl.value === 'Not sure' || !deptEl.value ? (autoDept[issueType.value] || 'General Municipal Dept.') : deptEl.value;
+    const complaints = JSON.parse(localStorage.getItem('cityTraceComplaints') || '[]');
+    const nextNum = 2382 + complaints.length;
+    
+    // NEW STRUCTURE: Set initial checkpoint & tracking fields
+    const complaint = {
+      id: 'CVC-' + nextNum,
+      issueType: issueType.value,
+      issueLabel: issueLabels[issueType.value] || issueType.value,
+      area: areaEl.value.trim(),
+      landmark: landmarkEl.value.trim(),
+      department: dept,
+      details: document.getElementById('details').value.trim(),
+      photos: photoFiles.map(f=>f.dataUrl),
+      checkpoint: 1, // Start at 01 Reported
+      disputeCount: 0,
+      afterPhoto: null,
+      filedDate: new Date().toISOString(),
+      resolvedDate: null
+    };
+    complaints.unshift(complaint);
+    localStorage.setItem('cityTraceComplaints', JSON.stringify(complaints));
+
+    document.getElementById('successTitle').textContent = `Complaint ${complaint.id} filed`;
+    document.getElementById('successBody').textContent = `Your ${complaint.issueLabel.toLowerCase()} case at ${complaint.area} has been logged and sent to ${complaint.department}.`;
+    document.getElementById('formView').style.display = 'none';
+    document.getElementById('successPanel').classList.add('show');
+  });
+
+  /* ============ MY COMPLAINTS / PROFILE PAGE ============ */
+  let activeTab = '1';
+
+  function loadComplaints(){ return JSON.parse(localStorage.getItem('cityTraceComplaints') || '[]'); }
+  function saveComplaints(list){ localStorage.setItem('cityTraceComplaints', JSON.stringify(list)); }
+  function formatDate(iso){ const d = new Date(iso); return d.toLocaleDateString(undefined, {day:'numeric', month:'short', year:'numeric'}); }
+
+  function renderProfile(){
+    const all = loadComplaints();
+    const counts = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0 };
+    
+    all.forEach(c => {
+       if (!c.checkpoint) c.checkpoint = 1;
+       counts[c.checkpoint]++;
+    });
+
+    document.getElementById('statAll').textContent = all.length;
+    document.getElementById('statOngoing').textContent = all.length - counts['5'];
+    document.getElementById('statClosed').textContent = counts['5'];
+
+    document.getElementById('count1').textContent = `(${counts['1']})`;
+    document.getElementById('count2').textContent = `(${counts['2']})`;
+    document.getElementById('count3').textContent = `(${counts['3']})`;
+    document.getElementById('count4').textContent = `(${counts['4']})`;
+    document.getElementById('count5').textContent = `(${counts['5']})`;
+
+    const list = all.filter(c => c.checkpoint == activeTab);
+    const container = document.getElementById('listContainer');
+
+    if(list.length === 0){
+      const emptyCopy = {
+        '1': {h:"No new reports", p:'File a case and it will start its lifecycle here.'},
+        '2': {h:"Nothing marked 'work done'", p:'Cases move here when the department claims they have finished the repair.'},
+        '3': {h:"No pending proof", p:'Cases sit here awaiting photographic or data evidence of the repair.'},
+        '4': {h:"Nothing awaiting your verification", p:'Once automated engines pass the proof, cases land here for your final say.'},
+        '5': {h:"Nothing closed yet", p:'Once you verify a repair is complete, it permanently anchors here.'}
+      }[activeTab];
+      container.innerHTML = `<div class="empty-state"><h3>${emptyCopy.h}</h3><p>${emptyCopy.p} <a href="#complaint" onclick="showPage('complaint'); return false;">File a complaint →</a></p></div>`;
+      return;
+    }
+
+    container.innerHTML = `<div class="case-list">${list.map(renderCard).join('')}</div>`;
+  }
+
+  function advanceCase(id, nextCP){
+    const all = loadComplaints();
+    const c = all.find(x => x.id === id);
+    if(c){
+       c.checkpoint = nextCP;
+       // If hitting Proof stage and no photo generated yet
+       if (nextCP >= 3 && !c.afterPhoto) {
+           c.afterPhoto = `https://picsum.photos/seed/${c.id}-after-${c.disputeCount}/200/160`;
+       }
+       saveComplaints(all);
+       renderProfile();
+    }
+  }
+
+  function resolveCase(id, confirmed){
+    const all = loadComplaints();
+    const c = all.find(x => x.id === id);
+    if(!c) return;
+
+    if(confirmed){
+      c.checkpoint = 5;
+      c.resolvedDate = new Date().toISOString();
+      updateDeptTrust(c.department, +4, 1);
+      alert(`Case verified! Trust score for ${c.department} increased.`);
+    } else {
+      c.disputeCount = (c.disputeCount || 0) + 1;
+      c.checkpoint = 3; // Kick back to proof submitted stage
+      c.afterPhoto = `https://picsum.photos/seed/${c.id}-after-${c.disputeCount}/200/160`; // Generate new proof
+      updateDeptTrust(c.department, -6, 0); // Drop trust score without incrementing cases
+      alert(`Case disputed! Trust score for ${c.department} decreased. The department must provide new proof.`);
+    }
+    saveComplaints(all);
+    renderProfile();
+  }
+
+  function renderCard(c){
+    const isClosed = c.checkpoint === 5;
+    const isDisputed = c.disputeCount > 0 && c.checkpoint < 5;
+    const photosHtml = (c.photos || []).slice(0,4).map((src,i)=>`<div class="ph"><img src="${src}" alt="Issue photo ${i+1} for ${c.id}"><span>before</span></div>`).join('');
+
+    let afterBlock = '';
+    if(c.checkpoint >= 3){
+      afterBlock = `
+        <div class="compare-label">${isClosed ? 'Verified proof' : 'Pending proof'} — before &amp; after</div>
+        <div class="case-photos">
+          ${(c.photos || []).slice(0,1).map((src,i)=>`<div class="ph"><img src="${src}" alt="Before photo ${i+1} for ${c.id}"><span>before</span></div>`).join('')}
+          <div class="ph"><img src="${c.afterPhoto}" alt="After photo showing the fix for ${c.id}"><span>after</span></div>
+        </div>
+        ${isClosed ? `<div class="verified-note">✓ Verified by you on ${formatDate(c.resolvedDate)}</div>` : ''}
+      `;
+    } else {
+      afterBlock = `
+        <div class="compare-label">Photos you submitted</div>
+        <div class="case-photos">${photosHtml || '<span style="font-size:13px;color:var(--ink-faint);">No photos attached</span>'}</div>
+      `;
+    }
+
+    let actionsHtml = '';
+    if (c.checkpoint === 1) {
+        actionsHtml = `<button class="btn-advance" style="padding:8px 12px; font-size:13.5px;" onclick="advanceCase('${c.id}', 2)">Simulate: Dept marks work done</button>`;
+    } else if (c.checkpoint === 2) {
+        actionsHtml = `<button class="btn-advance" style="padding:8px 12px; font-size:13.5px;" onclick="advanceCase('${c.id}', 3)">Simulate: Dept submits proof</button>`;
+    } else if (c.checkpoint === 3) {
+        actionsHtml = `<button class="btn-advance" style="padding:8px 12px; font-size:13.5px;" onclick="advanceCase('${c.id}', 4)">Simulate: Run engine verification</button>`;
+    } else if (c.checkpoint === 4) {
+        actionsHtml = `
+          <button class="btn-confirm" onclick="resolveCase('${c.id}', true)">Confirm fixed on the ground</button>
+          <button class="btn-dispute-small" onclick="resolveCase('${c.id}', false)">Still not fixed (Dispute)</button>
+        `;
+    }
+
+    const badgeLabel = ['','Reported','Work Done','Proof Submitted','Verification','Resolved'][c.checkpoint];
+    const badgeClass = isClosed ? 'closed' : (isDisputed ? 'disputed' : 'ongoing');
+
+    return `
+      <div class="case-card">
+        <div class="case-card-top">
+          <div>
+            <div class="pc-id">#${c.id}</div>
+            <div class="pc-title">${c.issueLabel}</div>
+            <div class="pc-loc">${c.area}${c.landmark ? ' · ' + c.landmark : ''}</div>
+          </div>
+          <div class="badge ${badgeClass}">CP${c.checkpoint}: ${badgeLabel}</div>
+        </div>
+        <div class="case-meta">
+          <span>Department <b>${c.department}</b></span>
+          <span>Filed <b>${formatDate(c.filedDate)}</b></span>
+          ${isClosed ? `<span>Resolved <b>${formatDate(c.resolvedDate)}</b></span>` : ''}
+          ${c.disputeCount ? `<span style="color:var(--rust)">Disputes filed: <b>${c.disputeCount}</b></span>` : ''}
+        </div>
+        ${afterBlock}
+        ${actionsHtml ? `<div class="case-actions">${actionsHtml}</div>` : ''}
+      </div>
+    `;
+  }
+
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      activeTab = btn.dataset.tab;
+      renderProfile();
+    });
+  });
+
+  renderProfile();
+</script>
+</body>
+</html>
