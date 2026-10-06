@@ -39,7 +39,7 @@ If the citizen disputes it, the case reopens and loops back to "work done."
 
 ## Team
 
-- @comenater and collaborators
+- Dakshita Koli, Kkusumpreet Kaur, Sneha Yadav, Varnika Hooda
 
 ## Status
 
