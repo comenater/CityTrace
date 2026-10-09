@@ -5,7 +5,6 @@
 CityTrace is a civic-tech platform concept designed to help citizens report public infrastructure issues and verify whether reported problems have actually been resolved. By introducing evidence-based verification into the complaint lifecycle, CityTrace aims to bridge the trust gap between citizens and civic authorities.
 
 🔗 **Live Demo:** [Explore CityTrace](https://comenater.github.io/CityTrace/)  
-💻 **GitHub Repository:** [comenater/CityTrace](https://github.com/comenater/CityTrace)
 
 ---
 
